@@ -1,8 +1,8 @@
+use gstreamer::glib::GStr;
 use gstreamer::prelude::*;
 use gstreamer::{PadProbeData, PadProbeReturn, PadProbeType};
+use nvidia_deepstream::meta;
 use nvidia_deepstream::meta::{BatchMetaExt, BufferExt};
-use nvidia_deepstream::{meta};
-use gstreamer::glib::GStr;
 
 #[derive(Clone)]
 struct UserMetaData {
@@ -102,9 +102,7 @@ fn main() {
                             meta::UserMeta::get_user_meta_type(GStr::from_ptr(
                                 "NVIDIA.NVINFER.USER_META\0".as_ptr() as _,
                             )),
-                            Box::new(UserMetaData {
-                                data: 100,
-                            }),
+                            Box::new(UserMetaData { data: 100 }),
                         );
                         if let Some(user_meta) = user_meta {
                             frame_meta.add_user_meta(user_meta);

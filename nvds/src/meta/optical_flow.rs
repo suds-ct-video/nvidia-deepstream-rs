@@ -1,8 +1,5 @@
 use crate::WrapperExt;
-crate::wrapper_impl_value_type!(
-    FlowVector,
-    nvidia_deepstream_sys::NvOFFlowVector
-);
+crate::wrapper_impl_value_type!(FlowVector, nvidia_deepstream_sys::NvOFFlowVector);
 
 impl FlowVector {
     pub fn new(x: i16, y: i16) -> FlowVector {

@@ -1,6 +1,6 @@
 use crate::WrapperExt;
-use std::ptr::NonNull;
 use gstreamer::glib::GStr;
+use std::ptr::NonNull;
 
 #[repr(u32)]
 #[derive(Default, Clone, Copy, PartialEq, Debug)]

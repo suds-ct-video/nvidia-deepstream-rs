@@ -1,6 +1,6 @@
 use crate::WrapperExt;
-use std::ptr::NonNull;
 use gstreamer::glib::GStr;
+use std::ptr::NonNull;
 crate::wrapper_impl_ref_type!(ObjEncUsrArgs, nvidia_deepstream_sys::NvDsObjEncUsrArgs);
 
 impl ObjEncUsrArgs {
@@ -153,7 +153,7 @@ impl ObjEnc {
                 #[cfg(feature = "v6_2")]
                 arg,
             ))
-                .map(|p| ObjEnc(p))
+            .map(|p| ObjEnc(p))
         }
     }
 

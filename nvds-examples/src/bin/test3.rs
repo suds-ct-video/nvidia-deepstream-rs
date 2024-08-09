@@ -22,8 +22,7 @@ fn main() {
         .build()
         .unwrap();
     pipeline.add(&streammux).unwrap();
-    let src_list = yaml::nvds_parse_source_list(CONFIG_YML, "source-list")
-        .unwrap();
+    let src_list = yaml::nvds_parse_source_list(CONFIG_YML, "source-list").unwrap();
 
     let mut index = 0;
     for src in &src_list {
