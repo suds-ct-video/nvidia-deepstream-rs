@@ -1,11 +1,11 @@
 [package]
 name = "nvidia-deepstream"
 version = "0.1.0"
-authors = ["Yasuhiro Taniuchi"]
+authors = ["Yasuhiro Taniuchi", "Wael Sulais"]
 license = "MIT"
 description = "NVIDIA DeepStream SDK for Rust"
-homepage = "https://github.com/aosoft/nvidia-deepstream-rs"
-repository = "https://github.com/aosoft/nvidia-deepstream-rs"
+homepage = "https://github.com/suds-ct-video/nvidia-deepstream-rs"
+repository = "https://github.com/suds-ct-video/nvidia-deepstream-rs"
 readme = "../README.md"
 categories = ["api-bindings"]
 edition = "2021"
