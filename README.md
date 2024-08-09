@@ -18,6 +18,13 @@ This crate follows the versioning strategy of [`gstreamer-rs`](https://crates.io
 | 6.2.0              | v6_2          |
 | 6.1.1              |               |
 
+## Building
+
+If your deepstream installation is in a non-standard location or if you have multiple version installed installed at the same time, please set the `NVDS_ROOT` environment variable before building to specify the root of your chosen deepstream installation. By default, it's set to
+```sh
+export NVDS_ROOT=/opt/nvidia/deepstream/deepstream
+```
+
 ## How to use
 
 * Define in Cargo.toml
