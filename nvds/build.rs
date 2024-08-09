@@ -1,10 +1,6 @@
-static NVDS_VER: &str = "6.1";
-
 fn main() {
-    println!(
-        "cargo:rustc-link-search=/opt/nvidia/deepstream/deepstream-{}/lib/",
-        NVDS_VER
-    );
+    let root = std::env::var("NVDS_ROOT").unwrap_or("/opt/nvidia/deepstream/deepstream".into());
+    println!("cargo:rustc-link-search={}/lib/", root);
 
     if cfg!(feature = "logger") {
         println!("cargo:rustc-link-lib=dylib=nvds_logger");

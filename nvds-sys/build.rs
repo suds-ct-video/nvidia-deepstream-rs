@@ -9,9 +9,18 @@ fn main() {
         println!("cargo:rustc-link-search={:?}", path);
     }
 
+    println!("cargo:rerun-if-env-changed=NVDS_ROOT");
+    let root = std::env::var("NVDS_ROOT").unwrap_or("/opt/nvidia/deepstream/deepstream".into());
+    println!("Got root={:?}", root);
+    let root_path = std::path::Path::new(&root)
+        .join("sources")
+        .join("includes")
+        .canonicalize()
+        .unwrap();
+
     let mut bindings = bindgen::Builder::default()
         .header("wrapper.h")
-        .clang_arg("-I/opt/nvidia/deepstream/deepstream/sources/includes/");
+        .clang_arg(format!("-I{}", root_path.display()));
     for path in &pk.include_paths {
         bindings = bindings.clang_arg(format!("-I{}", path.to_str().unwrap()).as_str());
     }
