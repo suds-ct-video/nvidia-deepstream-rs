@@ -29,6 +29,7 @@ surface_transform = ["surface"]
 utils = []
 yaml = []
 
+v6_3 = ["v6_2"]
 v6_2 = []
 
 [dependencies]
