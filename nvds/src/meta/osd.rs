@@ -690,6 +690,8 @@ pub struct CircleParamsBuilder {
     radius: Option<u32>,
     circle_color: Option<ColorParams>,
     bg_color: Option<ColorParams>,
+    #[cfg(feature = "v6_4")]
+    circle_width: Option<u32>,
 }
 
 impl CircleParamsBuilder {
@@ -700,6 +702,8 @@ impl CircleParamsBuilder {
             radius: None,
             circle_color: None,
             bg_color: None,
+            #[cfg(feature = "v6_4")]
+            circle_width: None,
         }
     }
 
@@ -740,6 +744,8 @@ impl CircleParamsBuilder {
             has_bg_color: if self.bg_color.is_some() { 1 } else { 0 },
             bg_color: self.bg_color.unwrap_or_default().as_native_type(),
             reserved: 0,
+            #[cfg(feature = "v6_4")]
+            circle_width: self.circle_width.unwrap_or_default(),
         })
     }
 }

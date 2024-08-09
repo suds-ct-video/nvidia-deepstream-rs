@@ -48,6 +48,8 @@ pub struct ObjEncUsrArgsBuilder<'a> {
     quality: Option<i32>,
     #[cfg(feature = "v6_2")]
     is_frame: bool,
+    #[cfg(feature = "v6_4")]
+    calc_encode_time: bool,
 }
 
 impl<'a> ObjEncUsrArgsBuilder<'a> {
@@ -63,6 +65,8 @@ impl<'a> ObjEncUsrArgsBuilder<'a> {
             quality: None,
             #[cfg(feature = "v6_2")]
             is_frame: false,
+            #[cfg(feature = "v6_4")]
+            calc_encode_time: false,
         }
     }
 
@@ -118,6 +122,8 @@ impl<'a> ObjEncUsrArgsBuilder<'a> {
             quality: self.quality.unwrap_or_default(),
             #[cfg(feature = "v6_2")]
             isFrame: self.is_frame,
+            #[cfg(feature = "v6_4")]
+            calcEncodeTime: self.calc_encode_time,
         });
         if let Some(file_name) = self.file_name_image {
             unsafe {

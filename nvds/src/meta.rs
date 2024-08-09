@@ -4,6 +4,7 @@ pub mod latency;
 pub mod optical_flow;
 pub mod osd;
 pub mod schema;
+#[cfg(not(feature = "v6_4"))]
 pub mod tracker;
 
 use crate::WrapperExt;
