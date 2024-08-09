@@ -10,6 +10,7 @@ pub enum Mode {
     #[default]
     CPU = nvidia_deepstream_sys::NvOSD_Mode_MODE_CPU as _,
     GPU = nvidia_deepstream_sys::NvOSD_Mode_MODE_GPU as _,
+    #[cfg(not(feature = "v6_2"))]
     Hardware = nvidia_deepstream_sys::NvOSD_Mode_MODE_HW as _,
 }
 
