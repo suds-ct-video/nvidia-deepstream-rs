@@ -666,7 +666,7 @@ mod v6_2 {
 
 #[cfg(feature = "v6_4")]
 use v6_4::*;
-// #[cfg(feature = "v6_4")]
+#[cfg(feature = "v6_4")]
 mod v6_4 {
     use crate::WrapperExt;
 
