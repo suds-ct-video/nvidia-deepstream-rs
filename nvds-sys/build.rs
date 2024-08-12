@@ -18,9 +18,21 @@ fn main() {
         .canonicalize()
         .unwrap();
 
+    let pk_video = pkg_config::Config::new()
+        .probe("gstreamer-video-1.0")
+        .into_iter()
+        .map(|x| x.include_paths.into_iter())
+        .flatten()
+        .map(|x| format!("-I{}", x.to_str().unwrap()));
     let mut bindings = bindgen::Builder::default()
         .header("wrapper.h")
-        .clang_arg(format!("-I{}", root_path.display()));
+        .clang_arg(format!("-I{}", root_path.display()))
+        .clang_args(
+            pk.include_paths
+                .iter()
+                .map(|x| format!("-I{}", x.display())),
+        )
+        .clang_args(pk_video);
     for path in &pk.include_paths {
         bindings = bindings.clang_arg(format!("-I{}", path.to_str().unwrap()).as_str());
     }
