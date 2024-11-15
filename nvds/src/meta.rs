@@ -261,6 +261,7 @@ pub trait BatchMetaExt {
     fn user_meta_pool(&self) -> &MetaPool;
     fn label_info_meta_pool(&self) -> &MetaPool;
     fn frame_meta_list(&self) -> MetaList<FrameMeta>;
+    fn batch_user_meta_list(&self) -> MetaList<UserMeta>;
     fn acquire_meta_lock(&mut self);
     fn release_meta_lock(&mut self);
     fn acquire_obj_meta_from_pool(&self) -> Option<&mut ObjectMeta>;
@@ -392,6 +393,12 @@ impl<T: WrapperExt<NativeType = nvidia_deepstream_sys::NvDsBatchMeta>> BatchMeta
 
     fn frame_meta_list(&self) -> MetaList<FrameMeta> {
         MetaList::<FrameMeta>::new(NonNull::new(self.as_native_type_ref().frame_meta_list).unwrap())
+    }
+
+    fn batch_user_meta_list(&self) -> MetaList<UserMeta> {
+        MetaList::<UserMeta>::new(
+            NonNull::new(self.as_native_type_ref().batch_user_meta_list).unwrap(),
+        )
     }
 
     fn acquire_meta_lock(&mut self) {
