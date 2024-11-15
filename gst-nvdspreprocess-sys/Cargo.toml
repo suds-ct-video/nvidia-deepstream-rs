@@ -14,11 +14,14 @@ include = [
     "Cargo.toml",
     "../LICENSE"
 ]
+links = "nvdspreprocess-wrapper"
+
 
 [dependencies]
 
 [build-dependencies]
 bindgen = "0.63.0"
+cc = "1.2.1"
 pkg-config = "0.3.26"
 
 

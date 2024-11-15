@@ -30,4 +30,8 @@ fn main() {
     if cfg!(feature = "yaml") {
         println!("cargo:rustc-link-lib=dylib=nvds_yml_parser");
     }
+
+    if cfg!(feature = "gst-nvdspreprocess-sys") {
+        println!("cargo::rustc-link-lib=nvdspreprocess-wrapper");
+    }
 }

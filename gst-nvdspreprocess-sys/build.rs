@@ -37,13 +37,25 @@ fn main() {
         .map(|x| x.include_paths.into_iter())
         .flatten()
         .map(|x| format!("-I{}", x.to_str().unwrap()));
+
+    cc::Build::new()
+        .cpp(true)
+        .file("wrapper.cpp")
+        .include(&root_path)
+        .include(&gst_pre_root_path.join("include"))
+        .includes(&pk.include_paths)
+        .include("src")
+        .compile("nvdspreprocess-wrapper");
+
+    println!("cargo::rustc-link-lib=nvdspreprocess-wrapper");
+
     let mut bindings = bindgen::Builder::default()
-        .header("wrapper.h")
+        .header("wrapper.cpp")
         .clang_arg("-x")
         .clang_arg("c++")
         .clang_arg("-std=c++11")
         .allowlist_file(".*nvdspreprocess.*")
-        .allowlist_file("wrapper.h")
+        .allowlist_file("wrapper.cpp")
         .clang_arg(format!("-I{}", root_path.display()))
         .clang_arg(format!(
             "-I{}",
