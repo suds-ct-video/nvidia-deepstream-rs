@@ -4,4 +4,5 @@ members = [
     "nvds-sys",
     "nvds",
     "nvds-examples",
+		"gst-nvdspreprocess-sys"
 ]

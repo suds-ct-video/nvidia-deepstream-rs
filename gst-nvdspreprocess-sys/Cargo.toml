@@ -1,0 +1,24 @@
+[package]
+name = "gst-nvdspreprocess-sys"
+version = "0.1.0"
+authors = ["Yasuhiro Taniuchi", "Wael Sulais"]
+license = "MIT"
+description = "nvidia-deepstream-sys"
+homepage = "https://github.com/suds-ct-video/nvidia-deepstream-rs"
+repository = "https://github.com/suds-ct-video/nvidia-deepstream-rs"
+readme = "README.md"
+categories = ["api-bindings"]
+edition = "2021"
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+    "../LICENSE"
+]
+
+[dependencies]
+
+[build-dependencies]
+bindgen = "0.63.0"
+pkg-config = "0.3.26"
+
+

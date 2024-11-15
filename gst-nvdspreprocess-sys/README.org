@@ -1,0 +1,2 @@
+* =gst_nvdspreprocess-sys=
+Raw bindings for =gst_nvdspreprocess=. Only binds =nvdspreprocess_meta.h= for now.
