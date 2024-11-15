@@ -2,3 +2,8 @@
 /target
 /.idea
 Cargo.lock
+
+# Nix stuff
+.env.local
+.direnv/
+result*
