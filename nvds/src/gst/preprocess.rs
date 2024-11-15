@@ -1,5 +1,5 @@
 use crate::{meta::MetaType, WrapperExt};
-use gst_nvdspreprocess_sys::NvDsRoiMeta;
+use nvidia_deepstream_sys::NvDsRoiMeta;
 
 #[derive(Clone)]
 pub struct PreProcessBatchMeta(gst_nvdspreprocess_sys::GstNvDsPreProcessBatchMeta);
@@ -62,7 +62,7 @@ impl PreProcessBatchMeta {
         unsafe {
             let rois_ptr = gst_nvdspreprocess_sys::get_roi_vec_ptr(
                 &self.as_native_type_ref().roi_vector as *const _ as *mut _,
-            );
+            ) as *const nvidia_deepstream_sys::NvDsRoiMeta;
             let rois_size = gst_nvdspreprocess_sys::get_roi_vec_size(
                 &self.as_native_type_ref().roi_vector as *const _ as *mut _,
             );
