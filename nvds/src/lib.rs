@@ -30,6 +30,9 @@ pub mod utils;
 #[cfg(feature = "yaml")]
 pub mod yaml;
 
+#[cfg(feature = "gst-nvdspreprocess-sys")]
+pub mod gst;
+
 pub trait WrapperExt {
     type NativeType;
 

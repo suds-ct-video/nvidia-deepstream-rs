@@ -29,6 +29,8 @@ surface_transform = ["surface"]
 utils = []
 yaml = []
 
+gst-nvdspreprocess = []
+
 v6_4 = ["v6_3"]
 v6_3 = ["v6_2"]
 v6_2 = []
@@ -37,3 +39,4 @@ v6_2 = []
 
 gstreamer = "0.19.4"
 nvidia-deepstream-sys = { version = "0.1.0", path = "../nvds-sys" }
+gst-nvdspreprocess-sys = { version = "0.1.0", path = "../gst-nvdspreprocess-sys/", optional=true }
