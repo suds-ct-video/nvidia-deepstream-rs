@@ -6,7 +6,17 @@ NVIDIA DeepStream SDK for Rust
 ## Notice
 
 * WIP
-* Currently, Target SDK Version is 6.1.1
+
+## Supported Versions
+This crate follows the versioning strategy of [`gstreamer-rs`](https://crates.io/crates/gstreamer) in that versions of the linked library's API interface are exposed by create features.
+
+| DeepStream Version | Crate Feature |
+|--------------------|---------------|
+| 7.0.0              | v6_4          |
+| 6.4.0              | v6_4          |
+| 6.3.0              | v6_3          |
+| 6.2.0              | v6_2          |
+| 6.1.1              |               |
 
 ## How to use
 
