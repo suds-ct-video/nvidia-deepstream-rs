@@ -192,6 +192,16 @@ impl<'a, T: WrapperExt> MetaList<'a, T> {
     }
 }
 
+impl<'b, 'a: 'b, T: WrapperExt> IntoIterator for &'b MetaList<'a, T> {
+    type Item = &'b T;
+
+    type IntoIter = MetaListIterator<'b, T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter()
+    }
+}
+
 crate::wrapper_impl_ref_type!(Meta, nvidia_deepstream_sys::NvDsMeta);
 
 crate::wrapper_impl_ref_type!(MetaPool, nvidia_deepstream_sys::NvDsMetaPool);
