@@ -1,11 +1,11 @@
 //  port from deepstream-test2
 
+use gstreamer::glib::{GStr, GString};
 use gstreamer::prelude::*;
 use gstreamer::{PadProbeData, PadProbeReturn, PadProbeType};
 use nvidia_deepstream::meta::osd::{ColorParams, FontParamsBuilder, TextParamsBuilder};
 use nvidia_deepstream::meta::{BatchMetaExt, BufferExt, DisplayMetaBuilder};
 use nvidia_deepstream::yaml::ElementNvdsYamlExt;
-use gstreamer::glib::{GStr, GString};
 
 static CONFIG_YML: &str = "dstest2_config.yml";
 
@@ -130,12 +130,10 @@ fn main() {
 
                             if let Some(display_meta) = DisplayMetaBuilder::new()
                                 .text_params(&mut [TextParamsBuilder::new()
-                                    .display_text(
-                                        GString::from(format!(
-                                            "Person = {}, Vehicle = {}",
-                                            person_count, vehicle_count
-                                        )),
-                                    )
+                                    .display_text(GString::from(format!(
+                                        "Person = {}, Vehicle = {}",
+                                        person_count, vehicle_count
+                                    )))
                                     .x_offset(10)
                                     .y_offset(12)
                                     .font_params(

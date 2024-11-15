@@ -1,7 +1,7 @@
 use crate::{duplicate_glib_string, glib_free, WrapperExt};
 use gstreamer::glib::translate::ToGlibPtr;
-use std::ptr::NonNull;
 use gstreamer::glib::GStr;
+use std::ptr::NonNull;
 
 #[repr(u32)]
 #[derive(Default, Clone, Copy, PartialEq, Debug)]
@@ -236,16 +236,14 @@ impl<'a> VehicleObjectBuilder<'a> {
     }
 
     pub fn build(self) -> VehicleObject {
-        VehicleObject::from_native_type(
-            nvidia_deepstream_sys::NvDsVehicleObject {
-                type_: self.type_.to_glib_full(),
-                make: self.make.to_glib_full(),
-                model: self.model.to_glib_full(),
-                color: self.color.to_glib_full(),
-                region: self.region.to_glib_full(),
-                license: self.license.to_glib_full(),
-            },
-        )
+        VehicleObject::from_native_type(nvidia_deepstream_sys::NvDsVehicleObject {
+            type_: self.type_.to_glib_full(),
+            make: self.make.to_glib_full(),
+            model: self.model.to_glib_full(),
+            color: self.color.to_glib_full(),
+            region: self.region.to_glib_full(),
+            license: self.license.to_glib_full(),
+        })
     }
 }
 

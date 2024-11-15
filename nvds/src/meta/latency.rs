@@ -1,7 +1,7 @@
 use crate::meta::UserMeta;
 use crate::WrapperExt;
-use std::ptr::NonNull;
 use gstreamer::glib::GStr;
+use std::ptr::NonNull;
 
 crate::wrapper_impl_ref_type!(
     MetaSubCompLatency,

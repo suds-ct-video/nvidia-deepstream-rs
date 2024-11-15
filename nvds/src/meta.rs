@@ -8,9 +8,9 @@ pub mod schema;
 pub mod tracker;
 
 use crate::WrapperExt;
+use gstreamer::glib::GStr;
 use std::marker::PhantomData;
 use std::ptr::NonNull;
-use gstreamer::glib::GStr;
 
 crate::wrapper_impl_ref_type!(RoiMeta, nvidia_deepstream_sys::NvDsRoiMeta);
 

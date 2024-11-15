@@ -1,5 +1,5 @@
-use gstreamer::glib::GStr;
 use crate::WrapperExt;
+use gstreamer::glib::GStr;
 crate::wrapper_impl_ref_type!(PastFrameObj, nvidia_deepstream_sys::NvDsPastFrameObj);
 
 impl PastFrameObj {

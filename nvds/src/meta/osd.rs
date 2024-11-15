@@ -1,8 +1,8 @@
 use crate::WrapperExt;
 use gstreamer::glib;
 use gstreamer::glib::translate::ToGlibPtr;
-use std::ptr::null_mut;
 use gstreamer::glib::{GStr, GString};
+use std::ptr::null_mut;
 
 #[repr(u32)]
 #[derive(Default, Clone, Copy, PartialEq, Debug)]

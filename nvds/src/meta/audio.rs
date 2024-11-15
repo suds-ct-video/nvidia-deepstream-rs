@@ -1,7 +1,7 @@
 use crate::meta::{BaseMeta, ClassifierMeta, MetaList, UserMeta};
 use crate::WrapperExt;
-use std::ptr::NonNull;
 use gstreamer::glib::GStr;
+use std::ptr::NonNull;
 
 #[repr(u32)]
 pub enum AudioFormat {

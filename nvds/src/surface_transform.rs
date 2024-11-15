@@ -86,10 +86,7 @@ pub enum CompositeFlag {
     CompositeFilter = nvidia_deepstream_sys::NvBufSurfTransform_Composite_Flag_NVBUFSURF_TRANSFORM_COMPOSITE_FILTER as _,
 }
 
-crate::wrapper_impl_value_type!(
-    TransformRect,
-    nvidia_deepstream_sys::NvBufSurfTransformRect
-);
+crate::wrapper_impl_value_type!(TransformRect, nvidia_deepstream_sys::NvBufSurfTransformRect);
 
 impl TransformRect {
     pub fn new(left: u32, top: u32, width: u32, height: u32) -> TransformRect {
