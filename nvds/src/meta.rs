@@ -260,8 +260,8 @@ pub trait BatchMetaExt {
     fn display_meta_pool(&self) -> &MetaPool;
     fn user_meta_pool(&self) -> &MetaPool;
     fn label_info_meta_pool(&self) -> &MetaPool;
-    fn frame_meta_list(&self) -> MetaList<FrameMeta>;
-    fn batch_user_meta_list(&self) -> MetaList<UserMeta>;
+    fn frame_meta_list(&self) -> Option<MetaList<FrameMeta>>;
+    fn batch_user_meta_list(&self) -> Option<MetaList<UserMeta>>;
     fn acquire_meta_lock(&mut self);
     fn release_meta_lock(&mut self);
     fn acquire_obj_meta_from_pool(&self) -> Option<&mut ObjectMeta>;
@@ -391,14 +391,12 @@ impl<T: WrapperExt<NativeType = nvidia_deepstream_sys::NvDsBatchMeta>> BatchMeta
         unsafe { MetaPool::from_native_type_ref(&*self.as_native_type_ref().label_info_meta_pool) }
     }
 
-    fn frame_meta_list(&self) -> MetaList<FrameMeta> {
-        MetaList::<FrameMeta>::new(NonNull::new(self.as_native_type_ref().frame_meta_list).unwrap())
+    fn frame_meta_list(&self) -> Option<MetaList<FrameMeta>> {
+        NonNull::new(self.as_native_type_ref().frame_meta_list).map(MetaList::new)
     }
 
-    fn batch_user_meta_list(&self) -> MetaList<UserMeta> {
-        MetaList::<UserMeta>::new(
-            NonNull::new(self.as_native_type_ref().batch_user_meta_list).unwrap(),
-        )
+    fn batch_user_meta_list(&self) -> Option<MetaList<UserMeta>> {
+        NonNull::new(self.as_native_type_ref().batch_user_meta_list).map(MetaList::new)
     }
 
     fn acquire_meta_lock(&mut self) {
