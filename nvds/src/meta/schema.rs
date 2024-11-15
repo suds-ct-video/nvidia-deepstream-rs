@@ -666,6 +666,54 @@ mod v6_2 {
     }
 }
 
+#[cfg(feature = "v6_4")]
+use v6_4::*;
+// #[cfg(feature = "v6_4")]
+mod v6_4 {
+    use crate::WrapperExt;
+
+    crate::wrapper_impl_ref_type!(ConvexHull, nvidia_deepstream_sys::NvDsConvexHull);
+
+    impl ConvexHull {
+        #[doc(alias = "numFilled")]
+        pub fn num_filled(&self) -> u32 {
+            self.as_native_type().numFilled
+        }
+
+        pub fn points(&self) -> &[i32] {
+            unsafe {
+                std::slice::from_raw_parts(
+                    self.as_native_type_ref().points as *const i32,
+                    self.num_filled().try_into().unwrap(),
+                )
+            }
+        }
+    }
+
+    crate::wrapper_impl_ref_type!(Tracking3d, nvidia_deepstream_sys::NvDs3DTracking);
+
+    impl Tracking3d {
+        #[doc(alias = "convexHull")]
+        pub fn convex_hull(&self) -> ConvexHull {
+            ConvexHull::from_native_type(self.as_native_type().convexHull)
+        }
+
+        #[doc(alias = "ptImgFeet")]
+        pub fn pt_img_feet(&self) -> [f32; 2] {
+            self.as_native_type().ptImgFeet
+        }
+
+        #[doc(alias = "ptWorldFeet")]
+        pub fn pt_world_feet(&self) -> [f32; 2] {
+            self.as_native_type().ptWorldFeet
+        }
+
+        pub fn visibility(&self) -> f32 {
+            self.as_native_type().visibility
+        }
+    }
+}
+
 crate::wrapper_impl_ref_type!(EventMsgMetaBase, nvidia_deepstream_sys::NvDsEventMsgMeta);
 
 pub struct EventMsgMeta<T: Clone>(EventMsgMetaBase, core::marker::PhantomData<T>);
@@ -816,6 +864,10 @@ impl<T: Clone> Clone for EventMsgMeta<T> {
                     pose: self.0.as_native_type_ref().pose,
                     #[cfg(feature = "v6_2")]
                     embedding: self.0.as_native_type_ref().embedding,
+                    #[cfg(feature = "v6_4")]
+                    has3DTracking: self.0.as_native_type_ref().has3DTracking,
+                    #[cfg(feature = "v6_4")]
+                    singleView3DTracking: self.0.as_native_type_ref().singleView3DTracking,
                 }),
                 core::marker::PhantomData,
             )
@@ -861,6 +913,10 @@ pub struct EventMsgMetaBuilder<'a> {
     pose: Option<Joints>,
     #[cfg(feature = "v6_2")]
     embedding: Option<Embedding>,
+    #[cfg(feature = "v6_4")]
+    has_3d_tracking: bool,
+    #[cfg(feature = "v6_4")]
+    single_view_3d_tracking: Option<Tracking3d>,
 }
 
 impl<'a> EventMsgMetaBuilder<'a> {
@@ -889,6 +945,10 @@ impl<'a> EventMsgMetaBuilder<'a> {
             pose: None,
             #[cfg(feature = "v6_2")]
             embedding: None,
+            #[cfg(feature = "v6_4")]
+            has_3d_tracking: false,
+            #[cfg(feature = "v6_4")]
+            single_view_3d_tracking: None,
         }
     }
 
@@ -999,6 +1059,18 @@ impl<'a> EventMsgMetaBuilder<'a> {
         self
     }
 
+    #[cfg(feature = "v6_4")]
+    pub fn has_3d_tracking(mut self, value: bool) -> Self {
+        self.has_3d_tracking = value;
+        self
+    }
+
+    #[cfg(feature = "v6_4")]
+    pub fn single_view_3d_tracking(mut self, value: Tracking3d) -> Self {
+        self.single_view_3d_tracking = Some(value);
+        self
+    }
+
     pub fn build(self) -> Box<EventMsgMeta<()>> {
         self.internal_build(None)
     }
@@ -1039,6 +1111,13 @@ impl<'a> EventMsgMetaBuilder<'a> {
                 pose: self.pose.unwrap_or_default().as_native_type(),
                 #[cfg(feature = "v6_2")]
                 embedding: self.embedding.unwrap_or_default().as_native_type(),
+                #[cfg(feature = "v6_4")]
+                has3DTracking: self.has_3d_tracking,
+                #[cfg(feature = "v6_4")]
+                singleView3DTracking: self
+                    .single_view_3d_tracking
+                    .unwrap_or_default()
+                    .as_native_type(),
             }),
             core::marker::PhantomData,
         ))
