@@ -296,13 +296,21 @@ impl AllocateParams {
         display_scan_format: DisplayScanFormat,
         chroma_subsampling: ChromaSubsamplingParams,
         memtag: Tag,
+        #[cfg(feature = "v6_3")] disable_pitch_padding: bool,
     ) -> AllocateParams {
         AllocateParams::from_native_type(nvidia_deepstream_sys::NvBufSurfaceAllocateParams {
             params: params.as_native_type(),
             displayscanformat: display_scan_format as _,
             chromaSubsampling: chroma_subsampling.as_native_type(),
             memtag: memtag as _,
+            #[cfg(feature = "v6_3")]
+            disablePitchPadding: disable_pitch_padding,
+            #[cfg(feature = "v6_3")]
+            _reservedParam: 0,
+            #[cfg(not(feature = "v6_3"))]
             _reserved: [std::ptr::null_mut(); 4usize],
+            #[cfg(feature = "v6_3")]
+            _reserved: [std::ptr::null_mut(); 3usize],
         })
     }
 
