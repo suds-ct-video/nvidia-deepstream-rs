@@ -602,6 +602,70 @@ impl FaceObjectExt {
     }
 }
 
+#[cfg(feature = "v6_2")]
+use v6_2::*;
+#[cfg(feature = "v6_2")]
+mod v6_2 {
+    use crate::WrapperExt;
+
+    crate::wrapper_impl_ref_type!(Embedding, nvidia_deepstream_sys::NvDsEmbedding);
+
+    impl Embedding {
+        // TODO: check the safety of this impl
+        #[doc(alias = "embedding_length")]
+        pub fn vector(&self) -> &[f32] {
+            unsafe {
+                std::slice::from_raw_parts(
+                    self.as_native_type().embedding_vector as *const f32,
+                    self.len().try_into().unwrap(),
+                )
+            }
+        }
+
+        #[doc(alias = "embedding_length")]
+        pub fn len(&self) -> u32 {
+            self.as_native_type().embedding_length
+        }
+    }
+
+    crate::wrapper_impl_ref_type!(Joint, nvidia_deepstream_sys::NvDsJoint);
+
+    impl Joint {
+        pub fn x(&self) -> f32 {
+            self.as_native_type().x
+        }
+        pub fn y(&self) -> f32 {
+            self.as_native_type().y
+        }
+        pub fn z(&self) -> f32 {
+            self.as_native_type().z
+        }
+        pub fn confidence(&self) -> f32 {
+            self.as_native_type().confidence
+        }
+    }
+
+    crate::wrapper_impl_ref_type!(Joints, nvidia_deepstream_sys::NvDsJoints);
+
+    impl Joints {
+        // TODO: check the safety of this impl
+        pub fn joints(&self) -> impl Iterator<Item = &Joint> {
+            let nvds_joints = unsafe {
+                std::slice::from_raw_parts(
+                    self.as_native_type_ref().joints as *const _,
+                    self.len().try_into().unwrap(),
+                )
+            };
+            nvds_joints.iter().map(Joint::from_native_type_ref)
+        }
+
+        #[doc(alias = "num_joints")]
+        pub fn len(&self) -> i32 {
+            self.as_native_type().num_joints
+        }
+    }
+}
+
 crate::wrapper_impl_ref_type!(EventMsgMetaBase, nvidia_deepstream_sys::NvDsEventMsgMeta);
 
 pub struct EventMsgMeta<T: Clone>(EventMsgMetaBase, core::marker::PhantomData<T>);
@@ -748,6 +812,10 @@ impl<T: Clone> Clone for EventMsgMeta<T> {
                     videoPath: nvidia_deepstream_sys::strdup(self.0.as_native_type_ref().videoPath),
                     extMsg: std::ptr::null_mut(), // Box::into_raw(x),
                     extMsgSize: self.0.as_native_type_ref().extMsgSize,
+                    #[cfg(feature = "v6_2")]
+                    pose: self.0.as_native_type_ref().pose,
+                    #[cfg(feature = "v6_2")]
+                    embedding: self.0.as_native_type_ref().embedding,
                 }),
                 core::marker::PhantomData,
             )
@@ -789,6 +857,10 @@ pub struct EventMsgMetaBuilder<'a> {
     sensor_str: Option<&'a str>,
     other_attrs: Option<&'a str>,
     video_path: Option<&'a str>,
+    #[cfg(feature = "v6_2")]
+    pose: Option<Joints>,
+    #[cfg(feature = "v6_2")]
+    embedding: Option<Embedding>,
 }
 
 impl<'a> EventMsgMetaBuilder<'a> {
@@ -813,6 +885,10 @@ impl<'a> EventMsgMetaBuilder<'a> {
             sensor_str: None,
             other_attrs: None,
             video_path: None,
+            #[cfg(feature = "v6_2")]
+            pose: None,
+            #[cfg(feature = "v6_2")]
+            embedding: None,
         }
     }
 
@@ -911,6 +987,18 @@ impl<'a> EventMsgMetaBuilder<'a> {
         self
     }
 
+    #[cfg(feature = "v6_2")]
+    pub fn pose(mut self, value: Joints) -> Self {
+        self.pose = Some(value);
+        self
+    }
+
+    #[cfg(feature = "v6_2")]
+    pub fn embedding(mut self, value: Embedding) -> Self {
+        self.embedding = Some(value);
+        self
+    }
+
     pub fn build(self) -> Box<EventMsgMeta<()>> {
         self.internal_build(None)
     }
@@ -947,6 +1035,10 @@ impl<'a> EventMsgMetaBuilder<'a> {
                 videoPath: self.video_path.to_glib_full(),
                 extMsg: ext_msg as _,
                 extMsgSize: ext_msg_size as _,
+                #[cfg(feature = "v6_2")]
+                pose: self.pose.unwrap_or_default().as_native_type(),
+                #[cfg(feature = "v6_2")]
+                embedding: self.embedding.unwrap_or_default().as_native_type(),
             }),
             core::marker::PhantomData,
         ))

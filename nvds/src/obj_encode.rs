@@ -46,6 +46,8 @@ pub struct ObjEncUsrArgsBuilder<'a> {
     file_name_image: Option<&'a GStr>,
     obj_num: Option<i32>,
     quality: Option<i32>,
+    #[cfg(feature = "v6_2")]
+    is_frame: bool,
 }
 
 impl<'a> ObjEncUsrArgsBuilder<'a> {
@@ -59,6 +61,8 @@ impl<'a> ObjEncUsrArgsBuilder<'a> {
             file_name_image: None,
             obj_num: None,
             quality: None,
+            #[cfg(feature = "v6_2")]
+            is_frame: false,
         }
     }
 
@@ -112,6 +116,8 @@ impl<'a> ObjEncUsrArgsBuilder<'a> {
             fileNameImg: [0; 1024],
             objNum: self.obj_num.unwrap_or_default(),
             quality: self.quality.unwrap_or_default(),
+            #[cfg(feature = "v6_2")]
+            isFrame: self.is_frame,
         });
         if let Some(file_name) = self.file_name_image {
             unsafe {
@@ -135,9 +141,13 @@ impl Drop for ObjEnc {
 }
 
 impl ObjEnc {
-    pub fn new() -> Option<ObjEnc> {
+    pub fn new(#[cfg(feature = "v6_2")] arg: i32) -> Option<ObjEnc> {
         unsafe {
-            NonNull::new(nvidia_deepstream_sys::nvds_obj_enc_create_context()).map(|p| ObjEnc(p))
+            NonNull::new(nvidia_deepstream_sys::nvds_obj_enc_create_context(
+                #[cfg(feature = "v6_2")]
+                arg,
+            ))
+                .map(|p| ObjEnc(p))
         }
     }
 
