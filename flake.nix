@@ -31,6 +31,14 @@
             ])
             rust-analyzer-nightly
             jujutsu
+
+            pkg-config
+            # Add additional build inputs here
+            glib
+            gobject-introspection
+            # GStreamer
+            gst_all_1.gstreamer
+            gst_all_1.gst-plugins-base
           ]
           ++ pkgs.lib.optional pkgs.stdenv.isDarwin [
             iconv
